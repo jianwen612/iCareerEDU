@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.ApplyMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.Apply">
+    <id column="apply_user_id" jdbcType="VARCHAR" property="applyUserId" />
+    <id column="apply_ad_id" jdbcType="VARCHAR" property="applyAdId" />
+    <result column="apply_date" jdbcType="DATE" property="applyDate" />
+    <result column="ispassed" jdbcType="BIT" property="ispassed" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.tosit.genius.entity.Apply">
+    <result column="statement" jdbcType="LONGVARCHAR" property="statement" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    apply_user_id, apply_ad_id, apply_date, ispassed
+  </sql>
+  <sql id="Blob_Column_List">
+    statement
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.tosit.genius.entity.ApplyKey" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from apply
+    where apply_user_id = #{applyUserId,jdbcType=VARCHAR}
+      and apply_ad_id = #{applyAdId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.tosit.genius.entity.ApplyKey">
+    delete from apply
+    where apply_user_id = #{applyUserId,jdbcType=VARCHAR}
+      and apply_ad_id = #{applyAdId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.Apply">
+    insert into apply (apply_user_id, apply_ad_id, apply_date, 
+      ispassed, statement)
+    values (#{applyUserId,jdbcType=VARCHAR}, #{applyAdId,jdbcType=VARCHAR}, #{applyDate,jdbcType=DATE}, 
+      #{ispassed,jdbcType=BIT}, #{statement,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.Apply">
+    insert into apply
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="applyUserId != null">
+        apply_user_id,
+      </if>
+      <if test="applyAdId != null">
+        apply_ad_id,
+      </if>
+      <if test="applyDate != null">
+        apply_date,
+      </if>
+      <if test="ispassed != null">
+        ispassed,
+      </if>
+      <if test="statement != null">
+        statement,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="applyUserId != null">
+        #{applyUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="applyAdId != null">
+        #{applyAdId,jdbcType=VARCHAR},
+      </if>
+      <if test="applyDate != null">
+        #{applyDate,jdbcType=DATE},
+      </if>
+      <if test="ispassed != null">
+        #{ispassed,jdbcType=BIT},
+      </if>
+      <if test="statement != null">
+        #{statement,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tosit.genius.entity.Apply">
+    update apply
+    <set>
+      <if test="applyDate != null">
+        apply_date = #{applyDate,jdbcType=DATE},
+      </if>
+      <if test="ispassed != null">
+        ispassed = #{ispassed,jdbcType=BIT},
+      </if>
+      <if test="statement != null">
+        statement = #{statement,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where apply_user_id = #{applyUserId,jdbcType=VARCHAR}
+      and apply_ad_id = #{applyAdId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tosit.genius.entity.Apply">
+    update apply
+    set apply_date = #{applyDate,jdbcType=DATE},
+      ispassed = #{ispassed,jdbcType=BIT},
+      statement = #{statement,jdbcType=LONGVARCHAR}
+    where apply_user_id = #{applyUserId,jdbcType=VARCHAR}
+      and apply_ad_id = #{applyAdId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tosit.genius.entity.Apply">
+    update apply
+    set apply_date = #{applyDate,jdbcType=DATE},
+      ispassed = #{ispassed,jdbcType=BIT}
+    where apply_user_id = #{applyUserId,jdbcType=VARCHAR}
+      and apply_ad_id = #{applyAdId,jdbcType=VARCHAR}
+  </update>
+  <select id="listAll" parameterType="com.tosit.genius.entity.ApplyKey" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from apply
+  </select>
+
+  <delete id="deleteByAdid" parameterType="com.tosit.genius.entity.ApplyKey">
+    delete from apply
+    where apply_ad_id = #{adId,jdbcType=VARCHAR}
+  </delete>
+</mapper>

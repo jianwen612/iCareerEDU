@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.TakeMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.TakeKey">
+    <id column="take_course_id" jdbcType="VARCHAR" property="takeCourseId" />
+    <id column="take_user_id" jdbcType="VARCHAR" property="takeUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    take_course_id, take_user_id
+  </sql>
+  <delete id="deleteByPrimaryKey" parameterType="com.tosit.genius.entity.TakeKey">
+    delete from take
+    where take_course_id = #{takeCourseId,jdbcType=VARCHAR}
+      and take_user_id = #{takeUserId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.TakeKey">
+    insert into take (take_course_id, take_user_id)
+    values (#{takeCourseId,jdbcType=VARCHAR}, #{takeUserId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.TakeKey">
+    insert into take
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="takeCourseId != null">
+        take_course_id,
+      </if>
+      <if test="takeUserId != null">
+        take_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="takeCourseId != null">
+        #{takeCourseId,jdbcType=VARCHAR},
+      </if>
+      <if test="takeUserId != null">
+        #{takeUserId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="listAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+
+    from take
+  </select>
+  <select id="selectUserIdByCourseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+
+    from take
+    WHERE take_course_id = #{courseId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectCourseIdByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+
+    from take
+    WHERE take_user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByCourseId" parameterType="java.lang.String">
+    delete from take
+    where take_course_id = #{courseId,jdbcType=VARCHAR}
+  </delete>
+</mapper>

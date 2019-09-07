@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.InterviewMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.Interview">
+    <id column="interview_id" jdbcType="VARCHAR" property="interviewId" />
+    <result column="interview_company_id" jdbcType="VARCHAR" property="interviewCompanyId" />
+    <result column="interview_name" jdbcType="VARCHAR" property="interviewName" />
+    <result column="interview_position" jdbcType="VARCHAR" property="interviewPosition" />
+    <result column="interview_company" jdbcType="VARCHAR" property="interviewCompany" />
+    <result column="interview_content" jdbcType="VARCHAR" property="interviewContent" />
+    <result column="interview_time" jdbcType="TIMESTAMP" property="interviewTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    interview_id, interview_company_id, interview_name, interview_position, interview_company, 
+    interview_content, interview_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from interview
+    where interview_id = #{interviewId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from interview
+    where interview_id = #{interviewId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.Interview">
+    insert into interview (interview_id, interview_company_id, 
+      interview_name, interview_position, interview_company, 
+      interview_content, interview_time)
+    values (#{interviewId,jdbcType=VARCHAR}, #{interviewCompanyId,jdbcType=VARCHAR}, 
+      #{interviewName,jdbcType=VARCHAR}, #{interviewPosition,jdbcType=VARCHAR}, #{interviewCompany,jdbcType=VARCHAR}, 
+      #{interviewContent,jdbcType=VARCHAR}, #{interviewTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.Interview">
+    insert into interview
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="interviewId != null">
+        interview_id,
+      </if>
+      <if test="interviewCompanyId != null">
+        interview_company_id,
+      </if>
+      <if test="interviewName != null">
+        interview_name,
+      </if>
+      <if test="interviewPosition != null">
+        interview_position,
+      </if>
+      <if test="interviewCompany != null">
+        interview_company,
+      </if>
+      <if test="interviewContent != null">
+        interview_content,
+      </if>
+      <if test="interviewTime != null">
+        interview_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="interviewId != null">
+        #{interviewId,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewCompanyId != null">
+        #{interviewCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewName != null">
+        #{interviewName,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewPosition != null">
+        #{interviewPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewCompany != null">
+        #{interviewCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewContent != null">
+        #{interviewContent,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewTime != null">
+        #{interviewTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tosit.genius.entity.Interview">
+    update interview
+    <set>
+      <if test="interviewCompanyId != null">
+        interview_company_id = #{interviewCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewName != null">
+        interview_name = #{interviewName,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewPosition != null">
+        interview_position = #{interviewPosition,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewCompany != null">
+        interview_company = #{interviewCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewContent != null">
+        interview_content = #{interviewContent,jdbcType=VARCHAR},
+      </if>
+      <if test="interviewTime != null">
+        interview_time = #{interviewTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where interview_id = #{interviewId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tosit.genius.entity.Interview">
+    update interview
+    set interview_company_id = #{interviewCompanyId,jdbcType=VARCHAR},
+      interview_name = #{interviewName,jdbcType=VARCHAR},
+      interview_position = #{interviewPosition,jdbcType=VARCHAR},
+      interview_company = #{interviewCompany,jdbcType=VARCHAR},
+      interview_content = #{interviewContent,jdbcType=VARCHAR},
+      interview_time = #{interviewTime,jdbcType=TIMESTAMP}
+    where interview_id = #{interviewId,jdbcType=VARCHAR}
+  </update>
+  <select id="listAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from interview
+  </select>
+</mapper>

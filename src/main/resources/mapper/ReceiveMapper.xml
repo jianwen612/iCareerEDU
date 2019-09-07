@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.ReceiveMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.Receive">
+    <id column="receive_user_id" jdbcType="VARCHAR" property="receiveUserId" />
+    <id column="receive_interview_id" jdbcType="VARCHAR" property="receiveInterviewId" />
+    <result column="istaken" jdbcType="BIT" property="istaken" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    receive_user_id, receive_interview_id, istaken
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.tosit.genius.entity.ReceiveKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from receive
+    where receive_user_id = #{receiveUserId,jdbcType=VARCHAR}
+      and receive_interview_id = #{receiveInterviewId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.tosit.genius.entity.ReceiveKey">
+    delete from receive
+    where receive_user_id = #{receiveUserId,jdbcType=VARCHAR}
+      and receive_interview_id = #{receiveInterviewId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.Receive">
+    insert into receive (receive_user_id, receive_interview_id, 
+      istaken)
+    values (#{receiveUserId,jdbcType=VARCHAR}, #{receiveInterviewId,jdbcType=VARCHAR}, 
+      #{istaken,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.Receive">
+    insert into receive
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="receiveUserId != null">
+        receive_user_id,
+      </if>
+      <if test="receiveInterviewId != null">
+        receive_interview_id,
+      </if>
+      <if test="istaken != null">
+        istaken,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="receiveUserId != null">
+        #{receiveUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveInterviewId != null">
+        #{receiveInterviewId,jdbcType=VARCHAR},
+      </if>
+      <if test="istaken != null">
+        #{istaken,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tosit.genius.entity.Receive">
+    update receive
+    <set>
+      <if test="istaken != null">
+        istaken = #{istaken,jdbcType=BIT},
+      </if>
+    </set>
+    where receive_user_id = #{receiveUserId,jdbcType=VARCHAR}
+      and receive_interview_id = #{receiveInterviewId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tosit.genius.entity.Receive">
+    update receive
+    set istaken = #{istaken,jdbcType=BIT}
+    where receive_user_id = #{receiveUserId,jdbcType=VARCHAR}
+      and receive_interview_id = #{receiveInterviewId,jdbcType=VARCHAR}
+  </update>
+  <select id="listAll" parameterType="com.tosit.genius.entity.ReceiveKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from receive
+  </select>
+</mapper>

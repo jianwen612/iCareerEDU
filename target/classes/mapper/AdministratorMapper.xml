@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.AdministratorMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.Administrator">
+    <id column="admin_id" jdbcType="VARCHAR" property="adminId" />
+    <result column="admin_pswd" jdbcType="VARCHAR" property="adminPswd" />
+    <result column="admin_email" jdbcType="VARCHAR" property="adminEmail" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    admin_id, admin_pswd, admin_email
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from administrator
+    where admin_id = #{adminId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from administrator
+    where admin_id = #{adminId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.Administrator">
+    insert into administrator (admin_id, admin_pswd, admin_email
+      )
+    values (#{adminId,jdbcType=VARCHAR}, #{adminPswd,jdbcType=VARCHAR}, #{adminEmail,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.Administrator">
+    insert into administrator
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="adminPswd != null">
+        admin_pswd,
+      </if>
+      <if test="adminEmail != null">
+        admin_email,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        #{adminId,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPswd != null">
+        #{adminPswd,jdbcType=VARCHAR},
+      </if>
+      <if test="adminEmail != null">
+        #{adminEmail,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tosit.genius.entity.Administrator">
+    update administrator
+    <set>
+      <if test="adminPswd != null">
+        admin_pswd = #{adminPswd,jdbcType=VARCHAR},
+      </if>
+      <if test="adminEmail != null">
+        admin_email = #{adminEmail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where admin_id = #{adminId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tosit.genius.entity.Administrator">
+    update administrator
+    set admin_pswd = #{adminPswd,jdbcType=VARCHAR},
+      admin_email = #{adminEmail,jdbcType=VARCHAR}
+    where admin_id = #{adminId,jdbcType=VARCHAR}
+  </update>
+  <select id="listAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from administrator
+
+  </select>
+</mapper>

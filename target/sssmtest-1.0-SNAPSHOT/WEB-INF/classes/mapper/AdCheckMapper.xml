@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.AdCheckMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.AdCheck">
+    <id column="ad_check_ad_id" jdbcType="VARCHAR" property="adCheckAdId" />
+    <id column="ad_check_admin_id" jdbcType="VARCHAR" property="adCheckAdminId" />
+    <result column="ispassed" jdbcType="BIT" property="ispassed" />
+    <result column="priority" jdbcType="INTEGER" property="priority" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ad_check_ad_id, ad_check_admin_id, ispassed, priority
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.tosit.genius.entity.AdCheckKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ad_check
+    where ad_check_ad_id = #{adCheckAdId,jdbcType=VARCHAR}
+      and ad_check_admin_id = #{adCheckAdminId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.tosit.genius.entity.AdCheckKey">
+    delete from ad_check
+    where ad_check_ad_id = #{adCheckAdId,jdbcType=VARCHAR}
+      and ad_check_admin_id = #{adCheckAdminId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.AdCheck">
+    insert into ad_check (ad_check_ad_id, ad_check_admin_id, ispassed, 
+      priority)
+    values (#{adCheckAdId,jdbcType=VARCHAR}, #{adCheckAdminId,jdbcType=VARCHAR}, #{ispassed,jdbcType=BIT}, 
+      #{priority,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.AdCheck">
+    insert into ad_check
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adCheckAdId != null">
+        ad_check_ad_id,
+      </if>
+      <if test="adCheckAdminId != null">
+        ad_check_admin_id,
+      </if>
+      <if test="ispassed != null">
+        ispassed,
+      </if>
+      <if test="priority != null">
+        priority,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adCheckAdId != null">
+        #{adCheckAdId,jdbcType=VARCHAR},
+      </if>
+      <if test="adCheckAdminId != null">
+        #{adCheckAdminId,jdbcType=VARCHAR},
+      </if>
+      <if test="ispassed != null">
+        #{ispassed,jdbcType=BIT},
+      </if>
+      <if test="priority != null">
+        #{priority,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tosit.genius.entity.AdCheck">
+    update ad_check
+    <set>
+      <if test="ispassed != null">
+        ispassed = #{ispassed,jdbcType=BIT},
+      </if>
+      <if test="priority != null">
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ad_check_ad_id = #{adCheckAdId,jdbcType=VARCHAR}
+      and ad_check_admin_id = #{adCheckAdminId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tosit.genius.entity.AdCheck">
+    update ad_check
+    set ispassed = #{ispassed,jdbcType=BIT},
+      priority = #{priority,jdbcType=INTEGER}
+    where ad_check_ad_id = #{adCheckAdId,jdbcType=VARCHAR}
+      and ad_check_admin_id = #{adCheckAdminId,jdbcType=VARCHAR}
+  </update>
+  <select id="listAll" parameterType="com.tosit.genius.entity.AdCheckKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from ad_check
+  </select>
+</mapper>

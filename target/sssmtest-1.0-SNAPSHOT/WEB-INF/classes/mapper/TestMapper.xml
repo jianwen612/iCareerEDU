@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.TestMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.Test">
+    <id column="test_id" jdbcType="VARCHAR" property="testId" />
+    <result column="test_course_id" jdbcType="VARCHAR" property="testCourseId" />
+    <result column="test_name" jdbcType="VARCHAR" property="testName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    test_id, test_course_id, test_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from test
+    where test_id = #{testId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from test
+    where test_id = #{testId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.Test">
+    insert into test (test_id, test_course_id, test_name
+    )
+    values (#{testId,jdbcType=VARCHAR}, #{testCourseId,jdbcType=VARCHAR}, #{testName,jdbcType=VARCHAR}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.Test">
+    insert into test
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="testId != null">
+        test_id,
+      </if>
+      <if test="testCourseId != null">
+        test_course_id,
+      </if>
+      <if test="testName != null">
+        test_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="testId != null">
+        #{testId,jdbcType=VARCHAR},
+      </if>
+      <if test="testCourseId != null">
+        #{testCourseId,jdbcType=VARCHAR},
+      </if>
+      <if test="testName != null">
+        #{testName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tosit.genius.entity.Test">
+    update test
+    <set>
+      <if test="testCourseId != null">
+        test_course_id = #{testCourseId,jdbcType=VARCHAR},
+      </if>
+      <if test="testName != null">
+        test_name = #{testName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where test_id = #{testId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tosit.genius.entity.Test">
+    update test
+    set test_course_id = #{testCourseId,jdbcType=VARCHAR},
+    test_name = #{testName,jdbcType=VARCHAR}
+    where test_id = #{testId,jdbcType=VARCHAR}
+  </update>
+  <select id="listAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from test
+  </select>
+  <select id="selectByCourseName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from test t LEFT JOIN course c ON t.test_course_id = c.course_id
+    where c.course_name LIKE CONCAT('%',#{courseName},'%' )
+  </select>
+  <select id="selectByTestName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from test
+    where test_name LIKE CONCAT('%',#{testName},'%' )
+  </select>
+
+</mapper>

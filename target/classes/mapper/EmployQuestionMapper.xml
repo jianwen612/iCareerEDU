@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.EmployQuestionMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.EmployQuestion">
+    <id column="employ_question_id" jdbcType="VARCHAR" property="employQuestionId" />
+    <result column="employ_company_id" jdbcType="VARCHAR" property="employCompanyId" />
+    <result column="employ_question_name" jdbcType="VARCHAR" property="employQuestionName" />
+    <result column="employ_question_answer" jdbcType="VARCHAR" property="employQuestionAnswer" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    employ_question_id, employ_company_id, employ_question_name, employ_question_answer
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from employ_question
+    where employ_question_id = #{employQuestionId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from employ_question
+    where employ_question_id = #{employQuestionId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.EmployQuestion">
+    insert into employ_question (employ_question_id, employ_company_id, 
+      employ_question_name, employ_question_answer
+      )
+    values (#{employQuestionId,jdbcType=VARCHAR}, #{employCompanyId,jdbcType=VARCHAR}, 
+      #{employQuestionName,jdbcType=VARCHAR}, #{employQuestionAnswer,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.EmployQuestion">
+    insert into employ_question
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="employQuestionId != null">
+        employ_question_id,
+      </if>
+      <if test="employCompanyId != null">
+        employ_company_id,
+      </if>
+      <if test="employQuestionName != null">
+        employ_question_name,
+      </if>
+      <if test="employQuestionAnswer != null">
+        employ_question_answer,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="employQuestionId != null">
+        #{employQuestionId,jdbcType=VARCHAR},
+      </if>
+      <if test="employCompanyId != null">
+        #{employCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="employQuestionName != null">
+        #{employQuestionName,jdbcType=VARCHAR},
+      </if>
+      <if test="employQuestionAnswer != null">
+        #{employQuestionAnswer,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tosit.genius.entity.EmployQuestion">
+    update employ_question
+    <set>
+      <if test="employCompanyId != null">
+        employ_company_id = #{employCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="employQuestionName != null">
+        employ_question_name = #{employQuestionName,jdbcType=VARCHAR},
+      </if>
+      <if test="employQuestionAnswer != null">
+        employ_question_answer = #{employQuestionAnswer,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where employ_question_id = #{employQuestionId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tosit.genius.entity.EmployQuestion">
+    update employ_question
+    set employ_company_id = #{employCompanyId,jdbcType=VARCHAR},
+      employ_question_name = #{employQuestionName,jdbcType=VARCHAR},
+      employ_question_answer = #{employQuestionAnswer,jdbcType=VARCHAR}
+    where employ_question_id = #{employQuestionId,jdbcType=VARCHAR}
+  </update>
+  <select id="listAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from employ_question
+  </select>
+</mapper>

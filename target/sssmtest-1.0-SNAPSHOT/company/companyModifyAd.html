@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/companyCheck.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:03 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - FooTable</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="../static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../static/css/plugins/footable/footable.core.css" rel="stylesheet">
+
+    <link href="../static/css/animate.min.css" rel="stylesheet">
+    <link href="../static/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div>
+        <div>
+
+        </div>
+        <h3>修改招聘信息</h3>
+        <form class="m-t col-lg-6 col-lg-offset-2" role="form">
+            <div class="form-group">
+                招聘职位: <input id="adTitle" type="text" class="form-control"  required="" value="">
+            </div>
+            <div class="form-group">
+                招聘介绍: <input id="adContent" type="text" class="form-control"  required="">
+            </div>
+            <div class="form-group text-left">
+            </div>
+            <a onclick="saveAd()"  class="btn btn-primary block full-width m-b" >保存</a>
+            <!--<a onclick="cancel()" class="btn btn-primary block full-width m-b" >取消</a>-->
+        </form>
+    </div>
+
+</div>
+<script>
+
+    function getParam(paramName) {
+        paramValue = "", isFound = !1;
+        if (this.location.search.indexOf("?") == 0 && this.location.search.indexOf("=") > 1) {
+            arrSource = unescape(this.location.search).substring(1, this.location.search.length).split("&"), i = 0;
+            while (i < arrSource.length && !isFound) arrSource[i].indexOf("=") > 0 && arrSource[i].split("=")[0].toLowerCase() == paramName.toLowerCase() && (paramValue = arrSource[i].split("=")[1], isFound = !0), i++
+        }
+        return paramValue == "" && (paramValue = null), paramValue
+    }
+
+
+
+
+    window.onload=function getAd(adId) {
+
+        var adId=getParam("adId");
+        $.get("/company/getAd.action",
+            {
+                adId:adId
+            },
+            function (result) {
+                if (result.status === 0) {
+                    alert("数据加载失败！");
+                }
+                else {
+                    $(document).ready(function () {
+                        $("#adTitle").val(result.data.adTitle);
+                        $("#adContent").val(result.data.adContent);
+                    });
+                }
+            });
+    }
+
+    function saveAd(adId){
+
+        var adTitle = $("#adTitle").val();
+        var adContent = $("#adContent").val();
+        if(adTitle === null){
+            return;
+        }else
+        {
+            var adId=getParam("adId");
+            $.post("/company/saveAd.action",
+                {
+                    adId :adId,
+                    adTitle: adTitle,
+                    adContent: adContent
+                },
+                function (result)
+                {
+
+                    if(result===0)
+                    {
+                        alert("保存失败!");
+                        location.reload();
+                    }
+                    else{
+                        alert("保存成功!");
+                        window.location="companyAdvertisement.html";
+
+                    }
+                });
+        }
+
+    }
+
+
+</script>
+
+
+
+<script src="/static/js/jquery-1.11.1.min.js"></script>
+<script src="/static/js/jquery.min.js?v=2.1.4"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/plugins/iCheck/icheck.min.js"></script>
+<script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/static/js/plugins/validate/messages_zh.min.js"></script>
+<script src="/static/js/demo/form-validate-demo.min.js"></script>
+<script src="/static/js/plugins/jeditable/jquery.jeditable.js"></script>
+<script src="/static/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="/static/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/companyCheck.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:03 GMT -->
+</html>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.VideoMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.Video">
+    <id column="video_id" jdbcType="VARCHAR" property="videoId" />
+    <result column="video_path" jdbcType="VARCHAR" property="videoPath" />
+    <result column="video_course_id" jdbcType="VARCHAR" property="videoCourseId" />
+    <result column="video_name" jdbcType="VARCHAR" property="videoName" />
+    <result column="video_length" jdbcType="TIME" property="videoLength" />
+    <result column="video_upload_date" jdbcType="DATE" property="videoUploadDate" />
+    <result column="video_play_count" jdbcType="INTEGER" property="videoPlayCount" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.tosit.genius.entity.Video">
+    <result column="video_introduction" jdbcType="LONGVARCHAR" property="videoIntroduction" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    video_id, video_path, video_course_id, video_name, video_length, video_upload_date, 
+    video_play_count
+  </sql>
+  <sql id="Blob_Column_List">
+    video_introduction
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from video
+    where video_id = #{videoId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from video
+    where video_name like CONCAT('%',#{videoName},'%' )
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from video
+    where video_id = #{videoId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.Video">
+    insert into video (video_id, video_path, video_course_id,
+    video_name, video_length, video_upload_date,
+    video_play_count, video_introduction)
+    values (#{videoId,jdbcType=VARCHAR}, #{videoPath,jdbcType=VARCHAR}, #{videoCourseId,jdbcType=VARCHAR},
+    #{videoName,jdbcType=VARCHAR}, #{videoLength,jdbcType=TIME}, #{videoUploadDate,jdbcType=DATE},
+    #{videoPlayCount,jdbcType=INTEGER}, #{videoIntroduction,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.Video">
+    insert into video
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="videoId != null">
+        video_id,
+      </if>
+      <if test="videoPath != null">
+        video_path,
+      </if>
+      <if test="videoCourseId != null">
+        video_course_id,
+      </if>
+      <if test="videoName != null">
+        video_name,
+      </if>
+      <if test="videoLength != null">
+        video_length,
+      </if>
+      <if test="videoUploadDate != null">
+        video_upload_date,
+      </if>
+      <if test="videoPlayCount != null">
+        video_play_count,
+      </if>
+      <if test="videoIntroduction != null">
+        video_introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="videoId != null">
+        #{videoId,jdbcType=VARCHAR},
+      </if>
+      <if test="videoPath != null">
+        #{videoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="videoCourseId != null">
+        #{videoCourseId,jdbcType=VARCHAR},
+      </if>
+      <if test="videoName != null">
+        #{videoName,jdbcType=VARCHAR},
+      </if>
+      <if test="videoLength != null">
+        #{videoLength,jdbcType=TIME},
+      </if>
+      <if test="videoUploadDate != null">
+        #{videoUploadDate,jdbcType=DATE},
+      </if>
+      <if test="videoPlayCount != null">
+        #{videoPlayCount,jdbcType=INTEGER},
+      </if>
+      <if test="videoIntroduction != null">
+        #{videoIntroduction,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tosit.genius.entity.Video">
+    update video
+    <set>
+      <if test="videoPath != null">
+        video_path = #{videoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="videoCourseId != null">
+        video_course_id = #{videoCourseId,jdbcType=VARCHAR},
+      </if>
+      <if test="videoName != null">
+        video_name = #{videoName,jdbcType=VARCHAR},
+      </if>
+      <if test="videoLength != null">
+        video_length = #{videoLength,jdbcType=TIME},
+      </if>
+      <if test="videoUploadDate != null">
+        video_upload_date = #{videoUploadDate,jdbcType=DATE},
+      </if>
+      <if test="videoPlayCount != null">
+        video_play_count = #{videoPlayCount,jdbcType=INTEGER},
+      </if>
+      <if test="videoIntroduction != null">
+        video_introduction = #{videoIntroduction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where video_id = #{videoId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tosit.genius.entity.Video">
+    update video
+    set video_path = #{videoPath,jdbcType=VARCHAR},
+    video_course_id = #{videoCourseId,jdbcType=VARCHAR},
+    video_name = #{videoName,jdbcType=VARCHAR},
+    video_length = #{videoLength,jdbcType=TIME},
+    video_upload_date = #{videoUploadDate,jdbcType=DATE},
+    video_play_count = #{videoPlayCount,jdbcType=INTEGER},
+    video_introduction = #{videoIntroduction,jdbcType=LONGVARCHAR}
+    where video_id = #{videoId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tosit.genius.entity.Video">
+    update video
+    set video_path = #{videoPath,jdbcType=VARCHAR},
+    video_course_id = #{videoCourseId,jdbcType=VARCHAR},
+    video_name = #{videoName,jdbcType=VARCHAR},
+    video_length = #{videoLength,jdbcType=TIME},
+    video_upload_date = #{videoUploadDate,jdbcType=DATE},
+    video_play_count = #{videoPlayCount,jdbcType=INTEGER}
+    where video_id = #{videoId,jdbcType=VARCHAR}
+  </update>
+
+  <select id="listAll" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from video
+  </select>
+
+  <delete id="deleteByCourseId" parameterType="java.lang.String">
+    delete from video
+    where video_course_id = #{courseId,jdbcType=VARCHAR}
+  </delete>
+</mapper>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.TestQuestionMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.TestQuestion">
+    <id column="question_id" jdbcType="VARCHAR" property="questionId" />
+    <result column="question_subject_id" jdbcType="VARCHAR" property="questionSubjectId" />
+    <result column="question_name" jdbcType="VARCHAR" property="questionName" />
+    <result column="question_answer" jdbcType="VARCHAR" property="questionAnswer" />
+    <result column="question_type" jdbcType="VARCHAR" property="questionType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    question_id, question_subject_id, question_name, question_answer, question_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from test_question
+    where question_id = #{questionId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from test_question
+    where question_name LIKE CONCAT('%',#{questionName},'%' )
+  </select>
+  <select id="selectBySubjectName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from test_question tq LEFT JOIN subject s ON question_subject_id = subject_id
+    where s.subject_name LIKE CONCAT('%',#{subjectName},'%' )
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from test_question
+    where question_id = #{questionId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.TestQuestion">
+    insert into test_question (question_id, question_subject_id, question_name,
+    question_answer, question_type)
+    values (#{questionId,jdbcType=VARCHAR}, #{questionSubjectId,jdbcType=VARCHAR}, #{questionName,jdbcType=VARCHAR},
+    #{questionAnswer,jdbcType=VARCHAR}, #{questionType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.TestQuestion">
+    insert into test_question
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="questionId != null">
+        question_id,
+      </if>
+      <if test="questionSubjectId != null">
+        question_subject_id,
+      </if>
+      <if test="questionName != null">
+        question_name,
+      </if>
+      <if test="questionAnswer != null">
+        question_answer,
+      </if>
+      <if test="questionType != null">
+        question_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="questionId != null">
+        #{questionId,jdbcType=VARCHAR},
+      </if>
+      <if test="questionSubjectId != null">
+        #{questionSubjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="questionName != null">
+        #{questionName,jdbcType=VARCHAR},
+      </if>
+      <if test="questionAnswer != null">
+        #{questionAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="questionType != null">
+        #{questionType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tosit.genius.entity.TestQuestion">
+    update test_question
+    <set>
+      <if test="questionSubjectId != null">
+        question_subject_id = #{questionSubjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="questionName != null">
+        question_name = #{questionName,jdbcType=VARCHAR},
+      </if>
+      <if test="questionAnswer != null">
+        question_answer = #{questionAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="questionType != null">
+        question_type = #{questionType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where question_id = #{questionId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tosit.genius.entity.TestQuestion">
+    update test_question
+    set question_subject_id = #{questionSubjectId,jdbcType=VARCHAR},
+    question_name = #{questionName,jdbcType=VARCHAR},
+    question_answer = #{questionAnswer,jdbcType=VARCHAR},
+    question_type = #{questionType,jdbcType=VARCHAR}
+    where question_id = #{questionId,jdbcType=VARCHAR}
+  </update>
+  <select id="listAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from test_question
+  </select>
+</mapper>

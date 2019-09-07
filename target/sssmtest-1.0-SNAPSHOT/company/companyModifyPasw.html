@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/companyCheck.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:03 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - FooTable</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="../static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../static/css/plugins/footable/footable.core.css" rel="stylesheet">
+
+    <link href="../static/css/animate.min.css" rel="stylesheet">
+    <link href="../static/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div>
+        <div>
+
+        </div>
+        <h3>修改密码</h3>
+        <form class="m-t col-lg-6 col-lg-offset-2" role="form">
+            <div class="form-group">
+                请输入旧密码: <input id="companyPswd1" type="password" class="form-control"  required="">
+            </div>
+            <div class="form-group">
+                请输入新密码: <input id="companyPswd" type="password" class="form-control"  required="">
+            </div>
+            <div class="form-group">
+                请确认新密码: <input id="companyPswd3" type="password" class="form-control"  required="">
+            </div>
+            <div class="form-group text-left">
+            </div>
+            <a onclick="modifyPswd()" class="btn btn-primary block full-width m-b" >保存</a>
+        </form>
+    </div>
+
+</div>
+
+<script>
+
+    function modifyPswd(){
+        var companyPswd1 = $("#companyPswd1").val();
+        var companyPswd = $("#companyPswd").val();
+        var companyPswd3 = $("#companyPswd3").val();
+        $.get("/company/getInformation.action",
+            {
+            },
+            function (result) {
+                if (result.status === 0)
+                {
+                    alert("数据加载失败！");
+                }
+                else {
+                    if(companyPswd1 !== result.data.companyPswd)
+                    {
+                        alert("旧密码输入错误");
+
+                    }
+                    else {
+                        if(companyPswd.length < 6)
+                        {
+                            alert("密码长度不能少于6位！");
+                        }else {
+                            if (companyPswd !== companyPswd3)
+                            {
+                                alert("两次输入的新密码不正确！！！");
+                            }
+                            else {
+                                $.post("/company/modifyPswd.action",
+                                    {
+                                        companyPswd: companyPswd
+                                    },
+                                    function (result)
+                                    {
+                                        if(result===0)
+                                        {
+                                            alert("保存失败!");
+                                            location.reload();
+                                        }
+                                        else{
+                                            alert("保存成功!");
+                                            location.reload();
+
+                                        }
+                                    });
+                            }
+                        }
+
+                    }
+                }
+            });
+
+
+    }
+
+
+
+</script>
+
+<script src="../static/js/jquery.min.js?v=2.1.4"></script>
+<script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../static/js/plugins/footable/footable.all.min.js"></script>
+<script src="../static/js/content.min.js?v=1.0.0"></script>
+<script>
+    $(document).ready(function(){$(".footable").footable();$(".footable2").footable()});
+</script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/companyCheck.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:03 GMT -->
+</html>

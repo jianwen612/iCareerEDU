@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/companyCheck.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:03 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - FooTable</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="../static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="../static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="../static/css/plugins/footable/footable.core.css" rel="stylesheet">
+
+    <link href="../static/css/animate.min.css" rel="stylesheet">
+    <link href="../static/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div>
+        <div>
+
+        </div>
+        <h3>修改信息</h3>
+        <form class="m-t col-lg-6 col-lg-offset-2" role="form">
+            <div class="form-group">
+                企业名称: <input id="companyName" type="text" class="form-control"  required="" value="">
+            </div>
+            <div class="form-group">
+                企业邮箱: <input id="companyEmail" type="text" class="form-control"  required="">
+            </div>
+            <div class="form-group">
+                企业许可证: <input id="companyLicence" type="text" class="form-control"  required="">
+            </div>
+            <div class="form-group">
+                企业许可证编号: <input id="companyLicenceNo" type="text" class="form-control"  required="">
+            </div>
+            <div class="form-group">
+                企业电话: <input id="companyPhoneNo" type="text" class="form-control"  required="">
+            </div>
+            <div class="form-group">
+                企业介绍: <textarea style="max-width:800px;max-height:200px;min-width:400px;min-height:200px;" id="companyIntroduction" type="text" class="form-control"  required=""></textarea>
+            </div>
+
+            <div class="form-group text-left">
+            </div>
+            <a onclick="saveInformation()"  class="btn btn-primary block full-width m-b" >保存</a>
+            <!--<a onclick="cancel()" class="btn btn-primary block full-width m-b" >取消</a>-->
+        </form>
+    </div>
+
+</div>
+<script>
+
+    window.onload=function getCompanyInformation() {
+
+        $.get("/company/getInformation.action",
+            {
+            },
+            function (result) {
+                if (result.status === 0) {
+                    alert("数据加载失败！");
+                }
+                else {
+                    $(document).ready(function () {
+                        $("#companyName").val(result.data.companyName);
+                        $("#companyEmail").val(result.data.companyEmail);
+                        $("#companyLicence").val(result.data.companyLicence);
+                        $("#companyLicenceNo").val(result.data.companyLicenceNo);
+                        $("#companyPhoneNo").val(result.data.companyPhoneNo);
+                        $("#companyIntroduction").val(result.data.companyIntroduction)
+                    });
+                }
+            });
+    }
+
+    function saveInformation(){
+        var companyName = $("#companyName").val();
+        var companyEmail = $("#companyEmail").val();
+        var companyLicence = $("#companyLicence").val();
+        var companyLicenceNo = $("#companyLicenceNo").val();
+        var companyPhoneNo = $("#companyPhoneNo").val();
+        var companyIntroduction = $("#companyIntroduction").val();
+        if(companyName === null){
+            return;
+        }
+
+        $.post("/company/saveInformation.action",
+            {
+                companyName: companyName,
+                companyEmail: companyEmail,
+                companyLicence:companyLicence,
+                companyLicenceNo: companyLicenceNo,
+                companyPhoneNo: companyPhoneNo,
+                companyIntroduction:companyIntroduction
+            },
+            function (result)
+            {
+
+                if(result===0)
+                {
+                    alert("保存失败!");
+                }
+                else{
+                    alert("保存成功!");
+
+                }
+            });
+    }
+
+
+</script>
+
+
+
+<script src="/static/js/jquery-1.11.1.min.js"></script>
+<script src="/static/js/jquery.min.js?v=2.1.4"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/plugins/iCheck/icheck.min.js"></script>
+<script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/static/js/plugins/validate/messages_zh.min.js"></script>
+<script src="/static/js/demo/form-validate-demo.min.js"></script>
+<script src="/static/js/plugins/jeditable/jquery.jeditable.js"></script>
+<script src="/static/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="/static/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/companyCheck.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:03 GMT -->
+</html>

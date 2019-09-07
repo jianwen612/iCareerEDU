@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.TeacherMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.Teacher">
+    <id column="teacher_id" jdbcType="VARCHAR" property="teacherId" />
+    <result column="teacher_name" jdbcType="VARCHAR" property="teacherName" />
+    <result column="teacher_email" jdbcType="VARCHAR" property="teacherEmail" />
+    <result column="teacher_pswd" jdbcType="VARCHAR" property="teacherPswd" />
+    <result column="teacher_sex" jdbcType="BIT" property="teacherSex" />
+    <result column="teacher_certificate" jdbcType="VARCHAR" property="teacherCertificate" />
+    <result column="teacher_university" jdbcType="VARCHAR" property="teacherUniversity" />
+    <result column="teacher_uni_empno" jdbcType="CHAR" property="teacherUniEmpno" />
+    <result column="teacher_status" jdbcType="BIT" property="teacherStatus" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.tosit.genius.entity.Teacher">
+    <result column="teacher_introduction" jdbcType="LONGVARCHAR" property="teacherIntroduction" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    teacher_id, teacher_name, teacher_email, teacher_pswd, teacher_sex, teacher_certificate, 
+    teacher_university, teacher_uni_empno, teacher_status
+  </sql>
+  <sql id="Blob_Column_List">
+    teacher_introduction
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from teacher
+    where teacher_id = #{teacherId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from teacher
+    where teacher_id = #{teacherId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.Teacher">
+    insert into teacher (teacher_id, teacher_name, teacher_email, 
+      teacher_pswd, teacher_sex, teacher_certificate, 
+      teacher_university, teacher_uni_empno, teacher_status, 
+      teacher_introduction)
+    values (#{teacherId,jdbcType=VARCHAR}, #{teacherName,jdbcType=VARCHAR}, #{teacherEmail,jdbcType=VARCHAR}, 
+      #{teacherPswd,jdbcType=VARCHAR}, #{teacherSex,jdbcType=BIT}, #{teacherCertificate,jdbcType=VARCHAR}, 
+      #{teacherUniversity,jdbcType=VARCHAR}, #{teacherUniEmpno,jdbcType=CHAR}, #{teacherStatus,jdbcType=BIT}, 
+      #{teacherIntroduction,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.Teacher">
+    insert into teacher
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="teacherId != null">
+        teacher_id,
+      </if>
+      <if test="teacherName != null">
+        teacher_name,
+      </if>
+      <if test="teacherEmail != null">
+        teacher_email,
+      </if>
+      <if test="teacherPswd != null">
+        teacher_pswd,
+      </if>
+      <if test="teacherSex != null">
+        teacher_sex,
+      </if>
+      <if test="teacherCertificate != null">
+        teacher_certificate,
+      </if>
+      <if test="teacherUniversity != null">
+        teacher_university,
+      </if>
+      <if test="teacherUniEmpno != null">
+        teacher_uni_empno,
+      </if>
+      <if test="teacherStatus != null">
+        teacher_status,
+      </if>
+      <if test="teacherIntroduction != null">
+        teacher_introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="teacherId != null">
+        #{teacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherName != null">
+        #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherEmail != null">
+        #{teacherEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherPswd != null">
+        #{teacherPswd,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherSex != null">
+        #{teacherSex,jdbcType=BIT},
+      </if>
+      <if test="teacherCertificate != null">
+        #{teacherCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherUniversity != null">
+        #{teacherUniversity,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherUniEmpno != null">
+        #{teacherUniEmpno,jdbcType=CHAR},
+      </if>
+      <if test="teacherStatus != null">
+        #{teacherStatus,jdbcType=BIT},
+      </if>
+      <if test="teacherIntroduction != null">
+        #{teacherIntroduction,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tosit.genius.entity.Teacher">
+    update teacher
+    <set>
+      <if test="teacherName != null">
+        teacher_name = #{teacherName,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherEmail != null">
+        teacher_email = #{teacherEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherPswd != null">
+        teacher_pswd = #{teacherPswd,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherSex != null">
+        teacher_sex = #{teacherSex,jdbcType=BIT},
+      </if>
+      <if test="teacherCertificate != null">
+        teacher_certificate = #{teacherCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherUniversity != null">
+        teacher_university = #{teacherUniversity,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherUniEmpno != null">
+        teacher_uni_empno = #{teacherUniEmpno,jdbcType=CHAR},
+      </if>
+      <if test="teacherStatus != null">
+        teacher_status = #{teacherStatus,jdbcType=BIT},
+      </if>
+      <if test="teacherIntroduction != null">
+        teacher_introduction = #{teacherIntroduction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where teacher_id = #{teacherId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tosit.genius.entity.Teacher">
+    update teacher
+    set teacher_name = #{teacherName,jdbcType=VARCHAR},
+      teacher_email = #{teacherEmail,jdbcType=VARCHAR},
+      teacher_pswd = #{teacherPswd,jdbcType=VARCHAR},
+      teacher_sex = #{teacherSex,jdbcType=BIT},
+      teacher_certificate = #{teacherCertificate,jdbcType=VARCHAR},
+      teacher_university = #{teacherUniversity,jdbcType=VARCHAR},
+      teacher_uni_empno = #{teacherUniEmpno,jdbcType=CHAR},
+      teacher_status = #{teacherStatus,jdbcType=BIT},
+      teacher_introduction = #{teacherIntroduction,jdbcType=LONGVARCHAR}
+    where teacher_id = #{teacherId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tosit.genius.entity.Teacher">
+    update teacher
+    set teacher_name = #{teacherName,jdbcType=VARCHAR},
+      teacher_email = #{teacherEmail,jdbcType=VARCHAR},
+      teacher_pswd = #{teacherPswd,jdbcType=VARCHAR},
+      teacher_sex = #{teacherSex,jdbcType=BIT},
+      teacher_certificate = #{teacherCertificate,jdbcType=VARCHAR},
+      teacher_university = #{teacherUniversity,jdbcType=VARCHAR},
+      teacher_uni_empno = #{teacherUniEmpno,jdbcType=CHAR},
+      teacher_status = #{teacherStatus,jdbcType=BIT}
+    where teacher_id = #{teacherId,jdbcType=VARCHAR}
+  </update>
+  <select id="listAll" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from teacher
+  </select>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from teacher
+    where teacher_name = #{teacherName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByStatus" parameterType="java.lang.Boolean" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from teacher
+    where teacher_status = #{teacherStatus,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByName" parameterType="java.lang.String">
+    delete from teacher
+    where teacher_name = #{teacherName,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByStatus" parameterType="java.lang.Boolean">
+    delete from teacher
+    where teacher_status = #{teacherStatus,jdbcType=VARCHAR}
+  </delete>
+</mapper>

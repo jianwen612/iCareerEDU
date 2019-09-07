@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.TeacherCheckMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.TeacherCheck">
+    <id column="teacher_check_teacher_id" jdbcType="VARCHAR" property="teacherCheckTeacherId" />
+    <id column="teacher_check_admin_id" jdbcType="VARCHAR" property="teacherCheckAdminId" />
+    <result column="ispassed" jdbcType="BIT" property="ispassed" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    teacher_check_teacher_id, teacher_check_admin_id, ispassed
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.tosit.genius.entity.TeacherCheckKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from teacher_check
+    where teacher_check_teacher_id = #{teacherCheckTeacherId,jdbcType=VARCHAR}
+      and teacher_check_admin_id = #{teacherCheckAdminId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.tosit.genius.entity.TeacherCheckKey">
+    delete from teacher_check
+    where teacher_check_teacher_id = #{teacherCheckTeacherId,jdbcType=VARCHAR}
+      and teacher_check_admin_id = #{teacherCheckAdminId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.TeacherCheck">
+    insert into teacher_check (teacher_check_teacher_id, teacher_check_admin_id, 
+      ispassed)
+    values (#{teacherCheckTeacherId,jdbcType=VARCHAR}, #{teacherCheckAdminId,jdbcType=VARCHAR}, 
+      #{ispassed,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.TeacherCheck">
+    insert into teacher_check
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="teacherCheckTeacherId != null">
+        teacher_check_teacher_id,
+      </if>
+      <if test="teacherCheckAdminId != null">
+        teacher_check_admin_id,
+      </if>
+      <if test="ispassed != null">
+        ispassed,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="teacherCheckTeacherId != null">
+        #{teacherCheckTeacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherCheckAdminId != null">
+        #{teacherCheckAdminId,jdbcType=VARCHAR},
+      </if>
+      <if test="ispassed != null">
+        #{ispassed,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tosit.genius.entity.TeacherCheck">
+    update teacher_check
+    <set>
+      <if test="ispassed != null">
+        ispassed = #{ispassed,jdbcType=BIT},
+      </if>
+    </set>
+    where teacher_check_teacher_id = #{teacherCheckTeacherId,jdbcType=VARCHAR}
+      and teacher_check_admin_id = #{teacherCheckAdminId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tosit.genius.entity.TeacherCheck">
+    update teacher_check
+    set ispassed = #{ispassed,jdbcType=BIT}
+    where teacher_check_teacher_id = #{teacherCheckTeacherId,jdbcType=VARCHAR}
+      and teacher_check_admin_id = #{teacherCheckAdminId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByTeacherKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from teacher_check
+    where teacher_check_teacher_id = #{teacherId,jdbcType=VARCHAR}
+
+  </select>
+</mapper>

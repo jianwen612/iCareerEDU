@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.ParticipateMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.Participate">
+    <id column="participate_test_id" jdbcType="VARCHAR" property="participateTestId" />
+    <id column="participate_user_id" jdbcType="VARCHAR" property="participateUserId" />
+    <result column="participate_time" jdbcType="TIMESTAMP" property="participateTime" />
+    <result column="grade" jdbcType="INTEGER" property="grade" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    participate_test_id, participate_user_id, participate_time, grade
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.tosit.genius.entity.ParticipateKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from participate
+    where participate_test_id = #{participateTestId,jdbcType=VARCHAR}
+      and participate_user_id = #{participateUserId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.tosit.genius.entity.ParticipateKey">
+    delete from participate
+    where participate_test_id = #{participateTestId,jdbcType=VARCHAR}
+      and participate_user_id = #{participateUserId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.Participate">
+    insert into participate (participate_test_id, participate_user_id, 
+      participate_time, grade)
+    values (#{participateTestId,jdbcType=VARCHAR}, #{participateUserId,jdbcType=VARCHAR}, 
+      #{participateTime,jdbcType=TIMESTAMP}, #{grade,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.Participate">
+    insert into participate
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="participateTestId != null">
+        participate_test_id,
+      </if>
+      <if test="participateUserId != null">
+        participate_user_id,
+      </if>
+      <if test="participateTime != null">
+        participate_time,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="participateTestId != null">
+        #{participateTestId,jdbcType=VARCHAR},
+      </if>
+      <if test="participateUserId != null">
+        #{participateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="participateTime != null">
+        #{participateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tosit.genius.entity.Participate">
+    update participate
+    <set>
+      <if test="participateTime != null">
+        participate_time = #{participateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=INTEGER},
+      </if>
+    </set>
+    where participate_test_id = #{participateTestId,jdbcType=VARCHAR}
+      and participate_user_id = #{participateUserId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tosit.genius.entity.Participate">
+    update participate
+    set participate_time = #{participateTime,jdbcType=TIMESTAMP},
+      grade = #{grade,jdbcType=INTEGER}
+    where participate_test_id = #{participateTestId,jdbcType=VARCHAR}
+      and participate_user_id = #{participateUserId,jdbcType=VARCHAR}
+  </update>
+  <select id="listAll" parameterType="com.tosit.genius.entity.ParticipateKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from participate
+  </select>
+</mapper>

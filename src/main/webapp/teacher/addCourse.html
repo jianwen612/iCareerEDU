@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/project_detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+<head>
+
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - 项目详情</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <!---->
+    <link href="/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/css/plugins/simditor/simditor.css"/>
+    <link href="/static/css/animate.min.css" rel="stylesheet">
+    <link href="/static/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="/static/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <!---->
+    <link rel="shortcut icon" href="/static/img/favicon.ico">
+    <link href="/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+
+    <link href="/static/css/animate.min.css" rel="stylesheet">
+    <link href="/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="/static/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+
+    <!--//////////////-->
+
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div>
+        <div>
+
+        </div>
+        <h3>修改信息</h3>
+        <form class="m-t col-lg-6 col-lg-offset-2" role="form">
+
+
+            <div class="form-group">
+                课程名: <input id="tableCourseName" type="text" class="form-control" required="" value="">
+            </div>
+
+            <div>
+                科目：<br><select id="subject">
+                <option value="1">计算机</option>
+                <option value="2">数学</option>
+                <option value="3">语言</option>
+                <option value="4">物理</option>
+            </select>
+            </div>
+
+            <div class="form-group">
+                课程介绍: <textarea id="editor" placeholder="这里输入内容" autofocus
+                                name="recordContent"></textarea>
+            </div>
+            <div class="form-group">
+                课程开始时间: <input id="startDate" type="date" class="form-control" required="" value="">
+            </div>
+            <div class="form-group">
+                课程结束时间: <input id="endDate" type="date" class="form-control" required="" value="">
+            </div>
+
+            <div class="form-group text-left">
+            </div>
+            <a onclick='addCourse()' class="btn btn-primary block full-width m-b">保存</a>
+            <a onclick="redirectTo('myCourse.html')" class="btn btn-primary block full-width m-b" >取消</a>
+        </form>
+    </div>
+
+</div>
+
+<!---->
+
+
+<!--////////////////////////////////////////-->
+<script src="/static/js/jquery.min.js?v=2.1.4"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/content.min.js?v=1.0.0"></script>
+<script type="text/javascript" src="/static/js/plugins/simditor/module.js"></script>
+<script type="text/javascript" src="/static/js/plugins/simditor/uploader.js"></script>
+<script type="text/javascript" src="/static/js/plugins/simditor/hotkeys.js"></script>
+<script type="text/javascript" src="/static/js/plugins/simditor/simditor.js"></script>
+<script src="/static/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+<!--<script src="/static/js/jquery.serializejson.min.js"></script>-->
+<script src="/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="/static/js/plugins/sweetalert/sweetalert.min.js"></script>
+
+
+<!---->
+<script src="/static/js/jquery.min.js?v=2.1.4"></script>
+<script src="/static/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="/static/js/content.min.js?v=1.0.0"></script>
+<script src="../static/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+<script src="../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="../static/js/tableExport.js"></script>
+<script src="../static/js/bootstrap-table-export.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        var editor = new Simditor(
+            {
+                textarea: $("#editor"),
+                defaultImage: "img/a9.jpg",
+                placeholder: ""
+            }
+        )
+    });
+</script>
+<script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/static/js/plugins/validate/messages_zh.min.js"></script>
+<script src="/static/js/demo/form-validate-demo.min.js"></script>
+
+
+<script>
+    window.onload = function init() {
+
+
+
+
+
+        $.get
+        (
+            "/teacher/getSubjectList.action",
+            {}, function (result) {
+
+                if (result === null) {
+                    alert("数据错误");
+                }
+
+
+                else {
+                    var str = "";
+                    var len=result.length;
+                    var i;
+                    for ( i=0;i<len;i++ )
+                    { //定义一个变量 s代表索引 in data初始值，进循环才有值
+                        var s=result[i];
+                        str = str + "<option value='" + s.subjectId + "'>" + s.subjectName + "</option>";
+                    }
+                    $("#subject").html(str);
+                }
+            }
+        )
+
+
+    }
+
+
+
+
+    function queryParams(pageReqeust) {
+        //console.log("-----params-----");
+        pageReqeust.courseId = getParam("courseId");  //
+
+        return pageReqeust;
+    }
+
+    function addCourse() {
+        var courseStartDate=$("#startDate").val();
+        var courseEndDate=$("#endDate").val();
+        var courseName = $("#tableCourseName").val();
+        var courseIntroduction = $("#editor").val();
+        var courseSubjectId=$("#subject").val()
+        if(courseStartDate>=courseEndDate){
+            alert("请输入正确的日期！");
+            return;
+        }
+        if(courseName.length<1){
+            alert("请输入课程名！")
+            return;
+        }
+
+//        var courseId=getParam("courseId");
+//        alert(courseSubjectId);
+
+
+//        alert(userIntroduction);
+
+
+        $.post("/teacher/addCourse.action",
+            {
+
+                courseName:courseName,
+                courseSubjectId: courseSubjectId,
+                courseIntroduction: courseIntroduction,
+                courseStartDate:courseStartDate,
+                courseEndDate:courseEndDate
+            },
+
+            function (result) {
+
+                if (result === 0) {
+                    alert("保存失败!");
+                }
+                else {
+                    alert("保存成功!");
+                    redirectTo('myCourse.html');
+
+                }
+            });
+    }
+
+    function getParam(paramName) {
+        paramValue = "", isFound = !1;
+        if (this.location.search.indexOf("?") == 0 && this.location.search.indexOf("=") > 1) {
+            arrSource = unescape(this.location.search).substring(1, this.location.search.length).split("&"), i = 0;
+            while (i < arrSource.length && !isFound) arrSource[i].indexOf("=") > 0 && arrSource[i].split("=")[0].toLowerCase() == paramName.toLowerCase() && (paramValue = arrSource[i].split("=")[1], isFound = !0), i++
+        }
+        return paramValue == "" && (paramValue = null), paramValue;
+    }
+
+
+
+    function redirectTo(address) {
+        window.location = address;
+
+    }
+
+
+
+
+</script>
+
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/project_detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+</html>

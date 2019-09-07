@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/projects.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - 项目</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link rel="shortcut icon" href="../static/img/favicon.ico">
+    <link href="/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="/static/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+    <link href="/static/css/animate.min.css" rel="stylesheet">
+    <link href="/static/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="/static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+
+</head>
+
+<body class="gray-bg">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5></h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="fa fa-chevron-up"></i>
+                </a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-wrench"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#">选项1</a>
+                    </li>
+                    <li><a href="#">选项2</a>
+                    </li>
+                </ul>
+                <a class="close-link">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="row row-lg">
+
+                <div class="col-sm-12">
+                    <!-- Example Events -->
+                    <div class="example-wrap">
+                        <h4 class="example-title"></h4>
+                        <div class="example">
+                            <div class="alert alert-success" id="examplebtTableEventsResult" role="alert">
+                                招聘信息
+                            </div>
+                            <div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
+
+                                <a type="button" class="btn btn-outline btn-default J_menuItem" href="/company/companyAddAdvertisement.html">
+                                    <i class="glyphicon glyphicon-plus " aria-hidden="true" >
+
+                                    </i>
+
+                                </a>
+                            </div>
+                            <table id="exampleTableEvents" data-height="550" data-mobile-responsive="true">
+
+                            </table>
+                        </div>
+
+
+                    </div>
+                    <!-- End Example Events -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--<script src="/static/js/bootstrap-table-locale-all.js"></script>-->
+<script src="../static/js/jquery.min.js?v=2.1.4"></script>
+<script src="../static/js/bootstrap.min.js?v=3.3.6"></script>
+<script src="../static/js/content.min.js?v=1.0.0"></script>
+<script src="../static/js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="../static/js/plugins/bootstrap-table/bootstrap-table-mobile.min.js"></script>
+<script src="../static/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="../static/js/tableExport.js"></script>
+<script src="../static/js/bootstrap-table-export.js"></script>
+<script src="../static/js/plugins/sweetalert/sweetalert.min.js"></script>
+<!--<script src="../static/js/demo/myCourse.js"></script>-->
+
+<script>
+    $('#exampleTableEvents').bootstrapTable({
+        url: "/company/getCompanyAdvertisement.action",
+        method: "get",
+
+        contentType : "application/x-www-form-urlencoded",
+
+        search: true,
+        pagination: true,
+        showRefresh: true,
+        showToggle: true,
+        showColumns: true,
+        showExport: true,
+        exportDataType: 'all',
+        exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel','XLSX','pdf'],
+        exportOptions:{
+            fileName: "data"
+        },
+        buttonsClass:"default",
+        iconSize: "outline",
+        toolbar: "#exampleTableEventsToolbar",
+        icons: {refresh: "glyphicon-repeat", toggle: "glyphicon-list-alt", columns: "glyphicon-list",export:"glyphicon-export icon-share"},
+
+        columns : [  {
+            field : 'adId',
+            title : '招聘信息编号',
+            align : 'center',
+            valign : 'middle',
+            width: 200
+        },{
+            field : 'adTitle',
+            title : '招聘主题',
+            align : 'center',
+            valign : 'middle'
+        },  {
+            field: 'adContent',
+            title: '招聘介绍'
+
+
+        },{
+            title: '操作',
+            field: 'adId',
+            align: 'center',
+            formatter:function(value,row,index){
+                var e = '<button href="#" mce_href="#" onclick="deleteAd(\''+ row.adId + '\')">删除</button> <br>';
+                 var d = '<a href="#" mce_href="#" onclick="visitAd(\''+ row.adId + '\')">修改</a> ';
+
+                 return e+d;
+                //return e;
+            }
+        } ]
+    });
+
+    function deleteAd(adId) {
+        $.post("/company/deleteAdvertisement.action",
+            {
+                adId:adId
+            },
+            function (result) {
+                if(result===1)
+                {
+                    alert("删除成功！");
+                    location.reload();
+                }
+                else{
+
+                    alert("删除失败!此课程已不存在！");
+                    location.reload();
+                }
+
+            });
+
+    }
+
+    function  redirectTo(address) {
+        window.location = address;
+
+    }
+
+
+    function visitAd(adId) {
+        redirectTo("companyModifyAd.html?adId="+adId);
+
+    }
+
+
+
+</script>
+
+</body>
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/projects.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+</html>

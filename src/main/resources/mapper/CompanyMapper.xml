@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.CompanyMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.Company">
+    <id column="company_id" jdbcType="VARCHAR" property="companyId" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="company_email" jdbcType="VARCHAR" property="companyEmail" />
+    <result column="company_pswd" jdbcType="VARCHAR" property="companyPswd" />
+    <result column="company_licence" jdbcType="VARCHAR" property="companyLicence" />
+    <result column="company_licence_no" jdbcType="VARCHAR" property="companyLicenceNo" />
+    <result column="company_status" jdbcType="BIT" property="companyStatus" />
+    <result column="company_phone_no" jdbcType="VARCHAR" property="companyPhoneNo" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.tosit.genius.entity.Company">
+    <result column="company_introduction" jdbcType="LONGVARCHAR" property="companyIntroduction" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    company_id, company_name, company_email, company_pswd, company_licence, company_licence_no, 
+    company_status, company_phone_no
+  </sql>
+  <sql id="Blob_Column_List">
+    company_introduction
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from company
+    where company_id = #{companyId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from company
+    where company_id = #{companyId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.Company">
+    insert into company (company_id, company_name, company_email, 
+      company_pswd, company_licence, company_licence_no, 
+      company_status, company_phone_no, company_introduction
+      )
+    values (#{companyId,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{companyEmail,jdbcType=VARCHAR}, 
+      #{companyPswd,jdbcType=VARCHAR}, #{companyLicence,jdbcType=VARCHAR}, #{companyLicenceNo,jdbcType=VARCHAR}, 
+      #{companyStatus,jdbcType=BIT}, #{companyPhoneNo,jdbcType=VARCHAR}, #{companyIntroduction,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.Company">
+    insert into company
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="companyName != null">
+        company_name,
+      </if>
+      <if test="companyEmail != null">
+        company_email,
+      </if>
+      <if test="companyPswd != null">
+        company_pswd,
+      </if>
+      <if test="companyLicence != null">
+        company_licence,
+      </if>
+      <if test="companyLicenceNo != null">
+        company_licence_no,
+      </if>
+      <if test="companyStatus != null">
+        company_status,
+      </if>
+      <if test="companyPhoneNo != null">
+        company_phone_no,
+      </if>
+      <if test="companyIntroduction != null">
+        company_introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="companyId != null">
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyEmail != null">
+        #{companyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPswd != null">
+        #{companyPswd,jdbcType=VARCHAR},
+      </if>
+      <if test="companyLicence != null">
+        #{companyLicence,jdbcType=VARCHAR},
+      </if>
+      <if test="companyLicenceNo != null">
+        #{companyLicenceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyStatus != null">
+        #{companyStatus,jdbcType=BIT},
+      </if>
+      <if test="companyPhoneNo != null">
+        #{companyPhoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyIntroduction != null">
+        #{companyIntroduction,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tosit.genius.entity.Company">
+    update company
+    <set>
+      <if test="companyName != null">
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyEmail != null">
+        company_email = #{companyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPswd != null">
+        company_pswd = #{companyPswd,jdbcType=VARCHAR},
+      </if>
+      <if test="companyLicence != null">
+        company_licence = #{companyLicence,jdbcType=VARCHAR},
+      </if>
+      <if test="companyLicenceNo != null">
+        company_licence_no = #{companyLicenceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyStatus != null">
+        company_status = #{companyStatus,jdbcType=BIT},
+      </if>
+      <if test="companyPhoneNo != null">
+        company_phone_no = #{companyPhoneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="companyIntroduction != null">
+        company_introduction = #{companyIntroduction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where company_id = #{companyId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tosit.genius.entity.Company">
+    update company
+    set company_name = #{companyName,jdbcType=VARCHAR},
+      company_email = #{companyEmail,jdbcType=VARCHAR},
+      company_pswd = #{companyPswd,jdbcType=VARCHAR},
+      company_licence = #{companyLicence,jdbcType=VARCHAR},
+      company_licence_no = #{companyLicenceNo,jdbcType=VARCHAR},
+      company_status = #{companyStatus,jdbcType=BIT},
+      company_phone_no = #{companyPhoneNo,jdbcType=VARCHAR},
+      company_introduction = #{companyIntroduction,jdbcType=LONGVARCHAR}
+    where company_id = #{companyId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tosit.genius.entity.Company">
+    update company
+    set company_name = #{companyName,jdbcType=VARCHAR},
+      company_email = #{companyEmail,jdbcType=VARCHAR},
+      company_pswd = #{companyPswd,jdbcType=VARCHAR},
+      company_licence = #{companyLicence,jdbcType=VARCHAR},
+      company_licence_no = #{companyLicenceNo,jdbcType=VARCHAR},
+      company_status = #{companyStatus,jdbcType=BIT},
+      company_phone_no = #{companyPhoneNo,jdbcType=VARCHAR}
+    where company_id = #{companyId,jdbcType=VARCHAR}
+  </update>
+  <select id="listAll" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from company
+
+  </select>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from company
+    where company_name like CONCAT('%',#{name},'%' )
+  </select>
+</mapper>

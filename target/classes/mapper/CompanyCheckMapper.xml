@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.CompanyCheckMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.CompanyCheck">
+    <id column="company_check_company_id" jdbcType="VARCHAR" property="companyCheckCompanyId" />
+    <id column="company_check_admin_id" jdbcType="VARCHAR" property="companyCheckAdminId" />
+    <result column="ispassed" jdbcType="BIT" property="ispassed" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    company_check_company_id, company_check_admin_id, ispassed
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.tosit.genius.entity.CompanyCheckKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from company_check
+    where company_check_company_id = #{companyCheckCompanyId,jdbcType=VARCHAR}
+      and company_check_admin_id = #{companyCheckAdminId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.tosit.genius.entity.CompanyCheckKey">
+    delete from company_check
+    where company_check_company_id = #{companyCheckCompanyId,jdbcType=VARCHAR}
+      and company_check_admin_id = #{companyCheckAdminId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.CompanyCheck">
+    insert into company_check (company_check_company_id, company_check_admin_id, 
+      ispassed)
+    values (#{companyCheckCompanyId,jdbcType=VARCHAR}, #{companyCheckAdminId,jdbcType=VARCHAR}, 
+      #{ispassed,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.CompanyCheck">
+    insert into company_check
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="companyCheckCompanyId != null">
+        company_check_company_id,
+      </if>
+      <if test="companyCheckAdminId != null">
+        company_check_admin_id,
+      </if>
+      <if test="ispassed != null">
+        ispassed,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="companyCheckCompanyId != null">
+        #{companyCheckCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCheckAdminId != null">
+        #{companyCheckAdminId,jdbcType=VARCHAR},
+      </if>
+      <if test="ispassed != null">
+        #{ispassed,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tosit.genius.entity.CompanyCheck">
+    update company_check
+    <set>
+      <if test="ispassed != null">
+        ispassed = #{ispassed,jdbcType=BIT},
+      </if>
+    </set>
+    where company_check_company_id = #{companyCheckCompanyId,jdbcType=VARCHAR}
+      and company_check_admin_id = #{companyCheckAdminId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tosit.genius.entity.CompanyCheck">
+    update company_check
+    set ispassed = #{ispassed,jdbcType=BIT}
+    where company_check_company_id = #{companyCheckCompanyId,jdbcType=VARCHAR}
+      and company_check_admin_id = #{companyCheckAdminId,jdbcType=VARCHAR}
+  </update>
+  <select id="listAll" parameterType="com.tosit.genius.entity.CompanyCheckKey" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from company_check
+
+  </select>
+</mapper>

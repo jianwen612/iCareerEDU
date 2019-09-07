@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tosit.genius.dao.CourseMapper">
+  <resultMap id="BaseResultMap" type="com.tosit.genius.entity.Course">
+    <id column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="course_teacher_id" jdbcType="VARCHAR" property="courseTeacherId" />
+    <result column="course_subject_id" jdbcType="VARCHAR" property="courseSubjectId" />
+    <result column="course_name" jdbcType="VARCHAR" property="courseName" />
+    <result column="course_reg_date" jdbcType="DATE" property="courseRegDate" />
+    <result column="course_start_date" jdbcType="DATE" property="courseStartDate" />
+    <result column="course_end_date" jdbcType="DATE" property="courseEndDate" />
+    <result column="course_times" jdbcType="INTEGER" property="courseTimes" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.tosit.genius.entity.Course">
+    <result column="course_introduction" jdbcType="LONGVARCHAR" property="courseIntroduction" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    course_id, course_teacher_id, course_subject_id, course_name, course_reg_date, course_start_date, 
+    course_end_date, course_times
+  </sql>
+  <sql id="Blob_Column_List">
+    course_introduction
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from course
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from course
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.tosit.genius.entity.Course">
+    insert into course (course_id, course_teacher_id, course_subject_id, 
+      course_name, course_reg_date, course_start_date, 
+      course_end_date, course_times, course_introduction
+      )
+    values (#{courseId,jdbcType=VARCHAR}, #{courseTeacherId,jdbcType=VARCHAR}, #{courseSubjectId,jdbcType=VARCHAR}, 
+      #{courseName,jdbcType=VARCHAR}, #{courseRegDate,jdbcType=DATE}, #{courseStartDate,jdbcType=DATE}, 
+      #{courseEndDate,jdbcType=DATE}, #{courseTimes,jdbcType=INTEGER}, #{courseIntroduction,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tosit.genius.entity.Course">
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="courseTeacherId != null">
+        course_teacher_id,
+      </if>
+      <if test="courseSubjectId != null">
+        course_subject_id,
+      </if>
+      <if test="courseName != null">
+        course_name,
+      </if>
+      <if test="courseRegDate != null">
+        course_reg_date,
+      </if>
+      <if test="courseStartDate != null">
+        course_start_date,
+      </if>
+      <if test="courseEndDate != null">
+        course_end_date,
+      </if>
+      <if test="courseTimes != null">
+        course_times,
+      </if>
+      <if test="courseIntroduction != null">
+        course_introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="courseId != null">
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseTeacherId != null">
+        #{courseTeacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseSubjectId != null">
+        #{courseSubjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null">
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseRegDate != null">
+        #{courseRegDate,jdbcType=DATE},
+      </if>
+      <if test="courseStartDate != null">
+        #{courseStartDate,jdbcType=DATE},
+      </if>
+      <if test="courseEndDate != null">
+        #{courseEndDate,jdbcType=DATE},
+      </if>
+      <if test="courseTimes != null">
+        #{courseTimes,jdbcType=INTEGER},
+      </if>
+      <if test="courseIntroduction != null">
+        #{courseIntroduction,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tosit.genius.entity.Course">
+    update course
+    <set>
+      <if test="courseTeacherId != null">
+        course_teacher_id = #{courseTeacherId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseSubjectId != null">
+        course_subject_id = #{courseSubjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseName != null">
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseRegDate != null">
+        course_reg_date = #{courseRegDate,jdbcType=DATE},
+      </if>
+      <if test="courseStartDate != null">
+        course_start_date = #{courseStartDate,jdbcType=DATE},
+      </if>
+      <if test="courseEndDate != null">
+        course_end_date = #{courseEndDate,jdbcType=DATE},
+      </if>
+      <if test="courseTimes != null">
+        course_times = #{courseTimes,jdbcType=INTEGER},
+      </if>
+      <if test="courseIntroduction != null">
+        course_introduction = #{courseIntroduction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tosit.genius.entity.Course">
+    update course
+    set course_teacher_id = #{courseTeacherId,jdbcType=VARCHAR},
+      course_subject_id = #{courseSubjectId,jdbcType=VARCHAR},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      course_reg_date = #{courseRegDate,jdbcType=DATE},
+      course_start_date = #{courseStartDate,jdbcType=DATE},
+      course_end_date = #{courseEndDate,jdbcType=DATE},
+      course_times = #{courseTimes,jdbcType=INTEGER},
+      course_introduction = #{courseIntroduction,jdbcType=LONGVARCHAR}
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tosit.genius.entity.Course">
+    update course
+    set course_teacher_id = #{courseTeacherId,jdbcType=VARCHAR},
+      course_subject_id = #{courseSubjectId,jdbcType=VARCHAR},
+      course_name = #{courseName,jdbcType=VARCHAR},
+      course_reg_date = #{courseRegDate,jdbcType=DATE},
+      course_start_date = #{courseStartDate,jdbcType=DATE},
+      course_end_date = #{courseEndDate,jdbcType=DATE},
+      course_times = #{courseTimes,jdbcType=INTEGER}
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </update>
+  <select id="listAll" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from course
+
+  </select>
+
+  <select id="selectByName" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from course
+    where course_name LIKE CONCAT('%',#{name},'%' )
+  </select>
+</mapper>

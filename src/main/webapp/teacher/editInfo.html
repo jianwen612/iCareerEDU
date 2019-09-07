@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/companyCheck.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:03 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - FooTable</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+    <link href="/static/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="/static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/static/css/plugins/simditor/simditor.css"/>
+    <link href="/static/css/animate.min.css" rel="stylesheet">
+    <link href="/static/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="/static/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="/static/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div>
+        <div>
+
+        </div>
+        <h3>修改信息</h3>
+        <form class="m-t col-lg-6 col-lg-offset-2" role="form">
+
+
+
+            <div class="form-group">
+                姓名: <input id="teacherName" type="text" class="form-control"  required="" value="">
+            </div>
+            <div class="form-group">
+                邮箱: <input name="email"  class="form-control"  id="teacherEmail" type="text" class="form-control"  required="">
+            </div>
+            <div class="form-group">
+                个人介绍: <textarea id="editor" placeholder="这里输入内容" autofocus
+                                name="recordContent"></textarea>
+            </div>
+            <div class="form-group">
+                教师证号(若无则不填): <input name="certificate"  class="form-control"  id="certificate" type="text" class="form-control"  required="">
+            </div>
+            <div class="form-group">
+                所在大学: <input name="university"  class="form-control"  id="university" type="text" class="form-control"  required="">
+            </div>
+            <div class="form-group">
+                教职工号: <input name="empno"  class="form-control"  id="empno" type="text" class="form-control"  required="">
+            </div>
+
+
+            <div class="form-group text-left">
+            </div>
+            <a onclick='editInfo()'  class="btn btn-primary block full-width m-b" >保存</a>
+            <!--<a onclick="cancel()" class="btn btn-primary block full-width m-b" >取消</a>-->
+        </form>
+    </div>
+
+</div>
+<script>
+
+    window.onload=function getInfo() {
+
+        $.get
+        ("/teacher/getInfo.action",
+            {
+            },
+            function (result) {
+                if (result.status === 0) {
+                    alert("数据加载失败！");
+                }
+                else {
+                    $(document).ready(function () {
+                        $("#teacherName").val(result.data.teacherName);
+                        $("#teacherEmail").val(result.data.teacherEmail);
+                        $("#university").val(result.data.teacherUniversity);
+                        $("#empno").val(result.data.teacherUniEmpno);
+                        $("#certificate").val(result.data.teacherCertificate);
+                        $("#editor").val(result.data.teacherIntroduction);
+
+                        document.getElementsByClassName("simditor-body")[0].innerHTML=result.data.teacherIntroduction;
+                        document.getElementsByClassName("simditor-placeholder")[0].innerHTML="" ;
+
+//                        alert( $("#editor").val());
+//                        document.getElementById("editor").html("hello");
+
+
+                    });
+                }
+            }
+
+        );
+    }
+
+    function editInfo(){
+        var teacherName = $("#teacherName").val();
+        var teacherEmail = $("#teacherEmail").val();
+        var teacherIntroduction = $("#editor").val()
+        var teacherUniversity=$("#university").val();
+        var teacherUniEmpno=$("#empno").val();
+        var teacherCertificate=$("#certificate").val();
+//        alert(userIntroduction);
+        if(teacherName.length<2){
+            alert("姓名长度太短!");
+            return;
+        }
+
+        if(teacherEmail.length<5){
+            alert("请输入正确的邮箱！");
+            return;
+        }
+
+        if(teacherUniversity.length<2){
+            alert("请输入所在大学！");
+            return;
+        }
+        if(teacherUniEmpno.length<2){
+            alert("输入教职工号！");
+            return;
+        }
+
+
+        $.post("/teacher/editInfo.action",
+            {
+                teacherName: teacherName,
+                teacherEmail: teacherEmail,
+                teacherIntroduction:teacherIntroduction,
+                teacherUniversity:teacherUniversity,
+                teacherUniEmpno:teacherUniEmpno,
+                teacherCertificate:teacherCertificate
+
+            },
+
+            function (result)
+            {
+
+                if(result===0)
+                {
+                    alert("保存失败!");
+                }
+                else{
+                    alert("保存成功!");
+
+                }
+            });
+    }
+    
+    /*function cancel() {
+        window.close();
+    }*/
+
+</script>
+
+
+
+
+<script src="/static/js/jquery.min.js?v=2.1.4"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/content.min.js?v=1.0.0"></script>
+<script type="text/javascript" src="/static/js/plugins/simditor/module.js"></script>
+<script type="text/javascript" src="/static/js/plugins/simditor/uploader.js"></script>
+<script type="text/javascript" src="/static/js/plugins/simditor/hotkeys.js"></script>
+<script type="text/javascript" src="/static/js/plugins/simditor/simditor.js"></script>
+<script src="/static/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+<!--<script src="/static/js/jquery.serializejson.min.js"></script>-->
+<script src="/static/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="/static/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var editor = new Simditor(
+            {textarea: $("#editor"),
+                defaultImage: "img/a9.jpg",
+                placeholder:""
+            }
+            )
+    });
+</script>
+<script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/static/js/plugins/validate/messages_zh.min.js"></script>
+<script src="/static/js/demo/form-validate-demo.min.js"></script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/companyCheck.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:03 GMT -->
+</html>
